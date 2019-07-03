@@ -1,7 +1,7 @@
 <template>
   <div class="part" :class="position" >
     <router-link :to="{
-                name: 'Parts', 
+                name: 'Parts',
                 params: {
                     id: 'this.selectedPart.id',
                     partType: this.selectedPart.type,
@@ -27,50 +27,50 @@ function getNextValidIndex(index, length) {
 }
 
 export default {
-    props: {
-        parts: {
-            type: Array,
-            required: true,
-        },
-        position : {
-            type: String,
-            required: true,
-            validator: function(value){
-                return ['left','right', 'top', 'bottom', 'center'].includes(value);
-            }
-        }, 
+  props: {
+    parts: {
+      type: Array,
+      required: true,
     },
-    data() {
-        return { selectedPartIndex: 0 };
+    position: {
+      type: String,
+      required: true,
+      validator(value) {
+        return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
+      },
     },
-    computed: {
-        selectedPart() {
-        return this.parts[this.selectedPartIndex];
-        },
+  },
+  data() {
+    return { selectedPartIndex: 0 };
+  },
+  computed: {
+    selectedPart() {
+      return this.parts[this.selectedPartIndex];
     },
-    created() {
-        this.emitSelectedPart();
+  },
+  created() {
+    this.emitSelectedPart();
+  },
+  updated() {
+    this.emitSelectedPart();
+  },
+  methods: {
+    emitSelectedPart() {
+      this.$emit('partSelected', this.selectedPart);
     },
-    updated() {
-        this.emitSelectedPart();
+    selectNextPart() {
+      this.selectedPartIndex = getNextValidIndex(
+        this.selectedPartIndex,
+        this.parts.length,
+      );
     },
-    methods: {
-        emitSelectedPart(){
-            this.$emit('partSelected', this.selectedPart)
-        },
-        selectNextPart() {
-            this.selectedPartIndex = getNextValidIndex(
-                this.selectedPartIndex,
-                this.parts.length,
-            );
-        },
-        selectPreviousPart() {
-            this.selectedPartIndex = getPreviousValidIndex(
-                this.selectedPartIndex,
-                this.parts.length,
-            );
-        },
+    selectPreviousPart() {
+      this.selectedPartIndex = getPreviousValidIndex(
+        this.selectedPartIndex,
+        this.parts.length,
+      );
     },
+  },
 };
 
 </script>
