@@ -25,7 +25,7 @@
           Cart
           </router-link>
           <div class="cart-items">
-            {{cart.lenght}}
+            {{cart.count}}
           </div>
         </li>
         </ul>
